@@ -1,1 +1,10 @@
+@font-face {
+    font-family: Outfit;
+    src: url("../src/assets/fonts/Outfit-VariableFont_wght.ttf");
+}
+
 @import "tailwindcss";
+
+@theme {
+    --font-outfit: Outfit, "sans-serif";
+}
