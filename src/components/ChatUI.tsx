@@ -24,6 +24,7 @@ function ChatUI() {
         {messages.map((msg, index) => (
           <MessageUI key={index} role={msg.role} content={msg.content} />
         ))}
+        {(sending.state && <MessageUI role="assistant" content="" isLoader={true} />)}
         <Input sending={sending} setSending={setSending} />
       </div>
     </div>

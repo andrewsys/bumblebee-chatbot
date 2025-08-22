@@ -4,9 +4,10 @@ import clsx from "clsx";
 interface Props {
     role: string;
     content: string;
+    isLoader?: boolean;
 }
 
-function MessageUI({role, content}: Props) {
+function MessageUI({role, content, isLoader}: Props) {
     return (
         <div 
             className={clsx("max-w-[600px] p-2 rounded-xl", {
@@ -15,6 +16,7 @@ function MessageUI({role, content}: Props) {
             )}
         >
             <Markdown>{content}</Markdown>
+            {isLoader && <div className="loader"></div>}
         </div>
     )
 }
