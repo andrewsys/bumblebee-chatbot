@@ -17,8 +17,8 @@ function Input({ sending, setSending }: Props) {
     const [currentMessages, setCurrentMessages] = useState<Message[]>(JSON.parse(localStorage.getItem("Messages") || "[]"));
 
     const [inputMessage, setInputMessage] = useState("");
-    // const [sending, setSending] = useState({state: false, message: ""});
     const abortControllerRef = useRef<AbortController | null>(null);
+    const inputRef = useRef<HTMLInputElement | null>(null);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -27,7 +27,7 @@ function Input({ sending, setSending }: Props) {
         let chatId = selectedChat;
 
         if (selectedChat === "") {
-            const newChat = new Chat(Date.now().toString());
+            const newChat = new Chat(new Date().toLocaleString());
             chatId = newChat.id;
             setSelectedChat(newChat.id);
 
@@ -91,9 +91,13 @@ function Input({ sending, setSending }: Props) {
         };
     }, [sending]);
 
+    useEffect(() => {
+        inputRef.current?.focus();
+    }, [selectedChat]);
+
     return (
         <form className="border border-gray-400 p-1.5 mb-5 rounded-lg flex w-full" onSubmit={handleSubmit}>
-            <input className="outline-none w-full p-1" type="text" placeholder="Ask anything" value={inputMessage} onChange={e => setInputMessage(e.target.value)} />
+            <input className="outline-none w-full p-1" type="text" placeholder="Ask anything" ref={inputRef} value={inputMessage} onChange={e => setInputMessage(e.target.value)} />
 
             <button className={clsx("bg-[#FFF491] p-1 rounded-sm cursor-pointer", {"hidden": sending.state})} disabled={sending.state} type="submit">
                 <img src="/send.svg" alt="Send icon" width={24} />

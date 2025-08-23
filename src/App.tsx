@@ -34,8 +34,8 @@ function App() {
           <div className="my-2">
             {!currentChats.length ? 
               <span className="text-gray-500 px-2 py-1">No chats yet</span> 
-              : currentChats.map((chat: Chat) => (
-                <MiniChat key={chat.id} chat={chat} />
+              : [...currentChats].reverse().map((chat: Chat) => (
+                <MiniChat key={chat.id} chat={chat} setCurrentChats={setCurrentChats} />
               ))
             }
           </div>
