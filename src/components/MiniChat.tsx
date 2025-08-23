@@ -1,13 +1,15 @@
 import { useContext, useState, useRef } from "react";
 import Chat from "../utils/Chat";
+import Message from "../utils/Message";
 import GlobalContext from "../utils/GlobalContext";
 
 interface Props {
   chat: Chat;
   setCurrentChats: React.Dispatch<React.SetStateAction<Chat[]>>;
+  setCurrentMessages: React.Dispatch<React.SetStateAction<Message[]>>;
 }
 
-function MiniChat({ chat, setCurrentChats }: Props) {
+function MiniChat({ chat, setCurrentChats, setCurrentMessages }: Props) {
     const { selectedChat, setSelectedChat, setMobileMenu } = useContext(GlobalContext);
     const [isHovering, setIsHovering] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
@@ -50,6 +52,7 @@ function MiniChat({ chat, setCurrentChats }: Props) {
 
       // Reload list logic
       setCurrentChats(updatedChats);
+      setCurrentMessages(updatedMessages);
     }
 
     return (

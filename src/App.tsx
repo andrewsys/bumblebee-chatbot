@@ -5,12 +5,14 @@ import GlobalContext from "./utils/GlobalContext";
 import ChatUI from "./components/ChatUI";
 import MiniChat from "./components/MiniChat";
 import Chat from "./utils/Chat";
+import Message from "./utils/Message";
 
 function App() {
   const [selectedChat, setSelectedChat] = useState("");
   const [mobileMenu, setMobileMenu] = useState(false);
 
   const [currentChats, setCurrentChats] = useState<Chat[]>(JSON.parse(localStorage.getItem("Chats") || "[]"));
+  const [currentMessages, setCurrentMessages] = useState<Message[]>(JSON.parse(localStorage.getItem("Messages") || "[]"));
 
   useEffect(() => {
     setCurrentChats(JSON.parse(localStorage.getItem("Chats") || "[]"));
@@ -18,7 +20,7 @@ function App() {
   }, [selectedChat]);
 
   return (
-    <GlobalContext.Provider value={{ selectedChat, setSelectedChat, setMobileMenu }}>
+    <GlobalContext.Provider value={{ selectedChat,  setSelectedChat, currentChats, setCurrentChats, setCurrentMessages, setMobileMenu }}>
       <div className="flex h-screen font-outfit">
         <div className={clsx("lg:block absolute lg:relative border-r-1 border-gray-400 w-full z-5 h-full bg-white lg:w-[300px] p-2", {"hidden": !mobileMenu})}>
           <div className="flex justify-between items-center px-2">
@@ -35,7 +37,7 @@ function App() {
             {!currentChats.length ? 
               <span className="text-gray-500 px-2 py-1">No chats yet</span> 
               : [...currentChats].reverse().map((chat: Chat) => (
-                <MiniChat key={chat.id} chat={chat} setCurrentChats={setCurrentChats} />
+                <MiniChat key={chat.id} chat={chat} setCurrentChats={setCurrentChats} setCurrentMessages={setCurrentMessages} />
               ))
             }
           </div>

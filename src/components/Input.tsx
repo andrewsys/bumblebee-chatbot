@@ -11,10 +11,7 @@ interface Props {
 
 function Input({ sending, setSending }: Props) {
     const API_KEY = import.meta.env.VITE_API_KEY;
-    const { selectedChat, setSelectedChat } = useContext(GlobalContext);
-
-    const [currentChats, setCurrentChats] = useState<Chat[]>(JSON.parse(localStorage.getItem("Chats") || "[]"));
-    const [currentMessages, setCurrentMessages] = useState<Message[]>(JSON.parse(localStorage.getItem("Messages") || "[]"));
+    const { selectedChat, setSelectedChat, setCurrentChats, setCurrentMessages } = useContext(GlobalContext);
 
     const [inputMessage, setInputMessage] = useState("");
     const abortControllerRef = useRef<AbortController | null>(null);
@@ -31,13 +28,19 @@ function Input({ sending, setSending }: Props) {
             chatId = newChat.id;
             setSelectedChat(newChat.id);
 
-            setCurrentChats(prev => [...prev, newChat]);
-            localStorage.setItem("Chats", JSON.stringify([...currentChats, newChat]));
+            setCurrentChats(prev => {
+                const updated = [...prev, newChat];
+                localStorage.setItem("Chats", JSON.stringify(updated));
+                return updated;
+            });
         }
 
         const newMessage = new Message(chatId, "user", inputMessage);
-        setCurrentMessages(prev => [...prev, newMessage]);
-        localStorage.setItem("Messages", JSON.stringify([...currentMessages, newMessage]));
+        setCurrentMessages(prev => {
+            const updated = [...prev, newMessage];
+            localStorage.setItem("Messages", JSON.stringify(updated));
+            return updated;
+        });
 
         setSending({state: true, message: inputMessage});
         setInputMessage("");
@@ -75,8 +78,11 @@ function Input({ sending, setSending }: Props) {
             .then(res => res.json())
             .then(data => {
                 const message = new Message(selectedChat, "assistant", data.candidates[0].content.parts[0].text);
-                setCurrentMessages(prev => [...prev, message]);
-                localStorage.setItem("Messages", JSON.stringify([...currentMessages, message]));
+                setCurrentMessages(prev => {
+                    const updated = [...prev, message];
+                    localStorage.setItem("Messages", JSON.stringify(updated));
+                    return updated;
+                });
 
                 setSending({state: false, message: ""});
             })
