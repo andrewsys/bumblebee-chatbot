@@ -7,10 +7,10 @@ interface Props {
 }
 
 function MiniChat({ chat }: Props) {
-    const { setSelectedChat } = useContext(GlobalContext);
+    const { setSelectedChat, setMobileMenu } = useContext(GlobalContext);
 
     return (
-    <div className="w-full hover:bg-gray-200 cursor-pointer rounded-md px-2 py-1" onClick={() => setSelectedChat(chat.id)}>
+    <div className="w-full hover:bg-gray-200 cursor-pointer rounded-md px-2 py-1" onClick={() => {setSelectedChat(chat.id); setMobileMenu(false);}}>
         <span>{chat.title}</span>
     </div>
     )

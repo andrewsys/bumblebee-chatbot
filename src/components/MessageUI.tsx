@@ -10,7 +10,7 @@ interface Props {
 function MessageUI({role, content, isLoader}: Props) {
     return (
         <div 
-            className={clsx("max-w-[600px] p-2 rounded-xl", {
+            className={clsx("max-w-[75vw] md:max-w-[600px] p-2 rounded-xl", {
                 "self-start bg-[#E5E5E5]": role === "assistant",
                 "self-end bg-[#FFF491]": role === "user"}
             )}

@@ -92,7 +92,7 @@ function Input({ sending, setSending }: Props) {
     }, [sending]);
 
     return (
-        <form className="border border-gray-400 p-1.5 mb-5 rounded-lg flex max-w-[700px]" onSubmit={handleSubmit}>
+        <form className="border border-gray-400 p-1.5 mb-5 rounded-lg flex w-full" onSubmit={handleSubmit}>
             <input className="outline-none w-full p-1" type="text" placeholder="Ask anything" value={inputMessage} onChange={e => setInputMessage(e.target.value)} />
 
             <button className={clsx("bg-[#FFF491] p-1 rounded-sm cursor-pointer", {"hidden": sending.state})} disabled={sending.state} type="submit">

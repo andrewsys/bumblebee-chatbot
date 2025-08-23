@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import clsx from "clsx";
 
 import GlobalContext from "./utils/GlobalContext";
 import ChatUI from "./components/ChatUI";
@@ -6,9 +7,8 @@ import MiniChat from "./components/MiniChat";
 import Chat from "./utils/Chat";
 
 function App() {
-  // const [storageMessages, setStorageMessages] = useState("");
-  // const [storageChats, setStorageChats] = useState("");
   const [selectedChat, setSelectedChat] = useState("");
+  const [mobileMenu, setMobileMenu] = useState(false);
 
   const [currentChats, setCurrentChats] = useState<Chat[]>(JSON.parse(localStorage.getItem("Chats") || "[]"));
 
@@ -18,13 +18,18 @@ function App() {
   }, [selectedChat]);
 
   return (
-    <GlobalContext.Provider value={{ selectedChat, setSelectedChat }}>
+    <GlobalContext.Provider value={{ selectedChat, setSelectedChat, setMobileMenu }}>
       <div className="flex h-screen font-outfit">
-        <div className="border-r-1 border-gray-400 w-[300px] p-2">
-          <span className="text-lg font-bold p-2">Bumble<span className="text-[#ffc400ff] inline">bee</span> Chatbot</span>
-          <div className="flex w-full p-2 border-b-1 border-gray-400 font-medium">
+        <div className={clsx("lg:block absolute lg:relative border-r-1 border-gray-400 w-full z-5 h-full bg-white lg:w-[300px] p-2", {"hidden": !mobileMenu})}>
+          <div className="flex justify-between items-center px-2">
+            <span className="text-lg font-bold ">Bumble<span className="text-[#ffc400ff] inline">bee</span></span>
+            <button onClick={() => setMobileMenu(false)} className="lg:hidden">
+              <img src="/close.svg" alt="Close menu" width={20} />
+            </button>
+          </div>
+          <div className="flex w-full p-2 mt-2 lg:mt-1 border-b-1 border-gray-400 font-medium">
             <span>Chats</span>
-            <button className="bg-[#FFF491] hover:bg-[#FFF000] ml-auto px-2 rounded-sm cursor-pointer" onClick={() => setSelectedChat("")}>+ New Chat</button>
+            <button className="bg-[#FFF491] hover:bg-[#FFF000] ml-auto px-2 rounded-sm cursor-pointer" onClick={() => {setSelectedChat(""); setMobileMenu(false);}}>+ New Chat</button>
           </div>
           <div className="my-2">
             {!currentChats.length ? 

@@ -3,6 +3,7 @@ import Input from "./Input";
 import GlobalContext from "../utils/GlobalContext";
 import Message from "../utils/Message";
 import MessageUI from "./MessageUI";
+import MobileHeader from "./MobileHeader";
 
 function ChatUI() {
   const { selectedChat } = useContext(GlobalContext);
@@ -20,7 +21,8 @@ function ChatUI() {
 
   return (
     <div>
-      <div className="w-[700px] flex flex-col gap-5 overflow-y-auto h-full">
+      <MobileHeader />
+      <div className="w-screen lg:w-[700px] px-4 lg:px-0 flex flex-col gap-5 overflow-y-auto h-full">
         {messages.map((msg, index) => (
           <MessageUI key={index} role={msg.role} content={msg.content} />
         ))}
