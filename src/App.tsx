@@ -12,7 +12,7 @@ function App() {
   const [mobileMenu, setMobileMenu] = useState(false);
 
   const [currentChats, setCurrentChats] = useState<Chat[]>(JSON.parse(localStorage.getItem("Chats") || "[]"));
-  const [currentMessages, setCurrentMessages] = useState<Message[]>(JSON.parse(localStorage.getItem("Messages") || "[]"));
+  const [, setCurrentMessages] = useState<Message[]>(JSON.parse(localStorage.getItem("Messages") || "[]"));
 
   useEffect(() => {
     setCurrentChats(JSON.parse(localStorage.getItem("Chats") || "[]"));
