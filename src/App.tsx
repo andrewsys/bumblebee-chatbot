@@ -22,7 +22,7 @@ function App() {
   return (
     <GlobalContext.Provider value={{ selectedChat,  setSelectedChat, currentChats, setCurrentChats, setCurrentMessages, setMobileMenu }}>
       <div className="flex h-screen font-outfit">
-        <div className={clsx("lg:block absolute lg:relative border-r-1 border-gray-400 w-full z-5 h-full bg-white lg:w-[300px] p-2", {"hidden": !mobileMenu})}>
+        <div className={clsx("lg:block absolute lg:relative border-r-1 border-gray-400 w-full z-5 h-full bg-white lg:max-w-[300px] lg:min-w-[300px] p-2", {"hidden": !mobileMenu})}>
           <div className="flex justify-between items-center px-2">
             <span className="text-lg font-bold ">Bumble<span className="text-[#ffc400ff] inline">bee</span></span>
             <button onClick={() => setMobileMenu(false)} className="lg:hidden">
@@ -33,12 +33,12 @@ function App() {
             <span>Chats</span>
             <button className="bg-[#FFF491] hover:bg-[#FFF000] ml-auto px-2 rounded-sm cursor-pointer" onClick={() => {setSelectedChat(""); setMobileMenu(false);}}>+ New Chat</button>
           </div>
-          <div className="my-2">
+          <div className="my-2 overflow-y-auto max-h-[calc(100vh-100px)]">
             {!currentChats.length ? 
               <span className="text-gray-500 px-2 py-1">No chats yet</span> 
               : [...currentChats].reverse().map((chat: Chat) => (
-                <MiniChat key={chat.id} chat={chat} setCurrentChats={setCurrentChats} setCurrentMessages={setCurrentMessages} />
-              ))
+                  <MiniChat key={chat.id} chat={chat} />
+                ))
             }
           </div>
         </div>

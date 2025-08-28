@@ -1,16 +1,13 @@
 import { useContext, useState, useRef } from "react";
 import Chat from "../utils/Chat";
-import Message from "../utils/Message";
 import GlobalContext from "../utils/GlobalContext";
 
 interface Props {
   chat: Chat;
-  setCurrentChats: React.Dispatch<React.SetStateAction<Chat[]>>;
-  setCurrentMessages: React.Dispatch<React.SetStateAction<Message[]>>;
 }
 
-function MiniChat({ chat, setCurrentChats, setCurrentMessages }: Props) {
-    const { selectedChat, setSelectedChat, setMobileMenu } = useContext(GlobalContext);
+function MiniChat({ chat }: Props) {
+    const { selectedChat, setSelectedChat, setMobileMenu, setCurrentChats, setCurrentMessages } = useContext(GlobalContext);
     const [isHovering, setIsHovering] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -57,10 +54,10 @@ function MiniChat({ chat, setCurrentChats, setCurrentMessages }: Props) {
 
     return (
     <div className="w-full hover:bg-gray-200 cursor-pointer rounded-md px-2 py-1 flex justify-between items-center" onClick={() => {if (!isEditing) {setSelectedChat(chat.id); setMobileMenu(false);}}} onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
-        {!isEditing && <span className="py-0.5">{chat.title}</span>}
+        {!isEditing && <span className="py-0.5 truncate break-all lg:max-w-[200px]">{chat.title}</span>}
         {isEditing && <form className="flex justify-between w-full gap-2" onSubmit={handleEditSubmit}>
           <input type="text" ref={inputRef} defaultValue={chat.title} className="self-start outline-1 px-2 rounded-md py-0.5 w-full" onClick={e => e.stopPropagation()}/>
-          <button className="hover:bg-gray-300 p-1 rounded-md cursor-pointer min-w-[26px]" onClick={handleEditButton}>
+          <button className="hover:bg-gray-300 p-1 rounded-md cursor-pointer min-w-[26px]" type="submit">
             <img src="check.svg" alt="Confirm rename chat button" width={18} height={18}/>
           </button>
           <button className="hover:bg-gray-300 p-1 rounded-md cursor-pointer min-w-[26px]" onClick={() => setIsEditing(false)}>
