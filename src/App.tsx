@@ -33,7 +33,7 @@ function App() {
             <span>Chats</span>
             <button className="bg-[#FFF491] hover:bg-[#FFF000] ml-auto px-2 rounded-sm cursor-pointer" onClick={() => {setSelectedChat(""); setMobileMenu(false);}}>+ New Chat</button>
           </div>
-          <div className="my-2 overflow-y-auto max-h-[calc(100vh-100px)]">
+          <div className="my-2 overflow-y-auto h-[100dvh] bg-white lg:max-h-[calc(100vh-100px)]">
             {!currentChats.length ? 
               <span className="text-gray-500 px-2 py-1">No chats yet</span> 
               : [...currentChats].reverse().map((chat: Chat) => (

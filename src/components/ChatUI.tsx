@@ -25,9 +25,10 @@ function ChatUI() {
   }, [messages]);
 
   return (
-    <div className="h-screen min-h-0 flex flex-col">
+    <div className="h-[100dvh] min-h-0 flex flex-col">
       <MobileHeader />
       <div className="w-screen lg:w-[700px] px-4 lg:px-0 flex flex-col flex-1 min-h-0">
+        {selectedChat == "" && <span className="absolute self-center text-4xl font-bold px-2 top-[45%] lg:w-[700px] text-gray-400 wrap-break-word text-center">Type your message on the textbox below :)</span>}
         <div className="flex flex-col overflow-y-auto flex-1 pt-20 lg:pt-5">
           {messages.map((msg, index) => (
             <MessageUI key={index} role={msg.role} content={msg.content} />

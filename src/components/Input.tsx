@@ -102,16 +102,19 @@ function Input({ sending, setSending }: Props) {
     }, [selectedChat]);
 
     return (
-        <form className="border border-gray-400 p-1.5 mb-5 rounded-lg flex w-full" onSubmit={handleSubmit}>
-            <input className="outline-none w-full p-1" type="text" placeholder="Ask anything" ref={inputRef} value={inputMessage} onChange={e => setInputMessage(e.target.value)} />
+        <form className="flex flex-col mb-2 w-full" onSubmit={handleSubmit}>
+            <div className="flex border border-gray-400 p-1.5 rounded-lg">            
+                <input className="outline-none w-full p-1" type="text" placeholder="Ask anything" ref={inputRef} value={inputMessage} onChange={e => setInputMessage(e.target.value)} />
 
-            <button className={clsx("bg-[#FFF491] p-1 rounded-sm cursor-pointer", {"hidden": sending.state})} disabled={sending.state} type="submit">
-                <img src="/send.svg" alt="Send icon" width={24} />
-            </button>
+                <button className={clsx("bg-[#FFF491] p-1 rounded-sm cursor-pointer", {"hidden": sending.state})} disabled={sending.state} type="submit">
+                    <img src="/send.svg" alt="Send icon" width={24} />
+                </button>
 
-            {sending.state && <button className="bg-[#FFF491] p-1 rounded-sm cursor-pointer" type="button" onClick={handleCancel}>
-                <img src="/stop.svg" alt="Stop icon" width={24} />
-            </button>}
+                {sending.state && <button className="bg-[#FFF491] p-1 rounded-sm cursor-pointer" type="button" onClick={handleCancel}>
+                    <img src="/stop.svg" alt="Stop icon" width={24} />
+                </button>}
+            </div>
+            <span className="text-center">made by <a href="https://github.com/andrewsys" target="_blank" rel="noopener noreferrer" className="underline">github@andrewsys</a></span>
         </form>
     )
 }
