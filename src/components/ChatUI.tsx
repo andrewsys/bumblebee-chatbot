@@ -8,38 +8,56 @@ import MobileHeader from "./MobileHeader";
 function ChatUI() {
   const { selectedChat } = useContext(GlobalContext);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
-  const [messages, setMessages] = useState<Message[]>(JSON.parse(localStorage.getItem("Messages") || "[]").filter(
-    (msg: { chatId: string }) => msg.chatId === selectedChat
-  ));
+
+  {/* state for loading the messages of the selected chat */}
+  const [messages, setMessages] = useState<Message[]>(
+    JSON.parse(localStorage.getItem("Messages") || "[]").filter(
+      (msg: { chatId: string }) => msg.chatId === selectedChat
+    )
+  );
+
   const [sending, setSending] = useState({ state: false, message: "" });
 
+  {/* update messages when selected chat or sending state changes */}
   useEffect(() => {
-    setMessages(JSON.parse(localStorage.getItem("Messages") || "[]").filter(
-      (msg: { chatId: string }) => msg.chatId === selectedChat
-    ));
+    setMessages(
+      JSON.parse(localStorage.getItem("Messages") || "[]").filter(
+        (msg: { chatId: string }) => msg.chatId === selectedChat
+      )
+    );
     console.log("(ChatUI.tsx) Selected chat:", selectedChat);
   }, [sending, selectedChat]);
 
+  {/* scroll to the bottom of the message list when messages change */}
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
   }, [messages]);
 
   return (
     <div className="h-[100dvh] min-h-0 flex flex-col">
+      {/* mobile header */}
       <MobileHeader />
       <div className="w-screen lg:w-[700px] px-4 lg:px-0 flex flex-col flex-1 min-h-0">
-        {selectedChat == "" && <span className="absolute self-center text-4xl font-bold px-2 top-[45%] lg:w-[700px] text-gray-400 wrap-break-word text-center">Type your message on the textbox below :)</span>}
+        {/* placeholder when no chat is selected */}
+        {selectedChat == "" && (
+          <span className="absolute self-center text-4xl font-bold px-2 top-[45%] lg:w-[700px] text-gray-400 break-words text-center">
+            Type your message on the textbox below :)
+          </span>
+        )}
+        {/* message list area */}
         <div className="flex flex-col overflow-y-auto flex-1 pt-20 lg:pt-5">
           {messages.map((msg, index) => (
             <MessageUI key={index} role={msg.role} content={msg.content} />
           ))}
+          {/* loader for assistant response */}
           {sending.state && <MessageUI role="assistant" content="" isLoader={true} />}
+          {/* div for scrolling to the bottom */}
           <div ref={messagesEndRef} />
         </div>
         <Input sending={sending} setSending={setSending} />
       </div>
     </div>
-  )
+  );
 }
 
 export default ChatUI;
